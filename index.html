@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2026 실수령액 계산기 | 퇴직금·연차수당까지 한 번에 (4대보험·세금 반영)</title>
+<meta name="description" content="2026년 4대보험 요율(국민연금 4.75%·건강보험 3.595%·장기요양 건보료의 13.14%·고용보험 0.9%)과 근로소득세를 반영해 월 실수령액을 계산합니다. 연봉별 실수령액 표와 퇴직금·연차수당 계산까지 한 페이지에서 확인하세요.">
+<link rel="canonical" href="https://jyp1108.github.io/salary-calc/">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta name="author" content="생활 계산소">
+<meta name="theme-color" content="#ffffff">
+<meta name="format-detection" content="telephone=no">
+
+<!-- 오픈그래프 / 트위터 카드 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="생활 계산소">
+<meta property="og:title" content="2026 실수령액 계산기 | 퇴직금·연차수당까지 한 번에">
+<meta property="og:description" content="2026년 요율 그대로 계산하는 월 실수령액 계산기. 연봉별 실수령액 표, 퇴직금, 연차수당을 한 페이지에서 무료로 계산하세요.">
+<meta property="og:url" content="https://jyp1108.github.io/salary-calc/">
+<meta property="og:image" content="https://jyp1108.github.io/salary-calc/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="2026 실수령액 계산기 - 생활 계산소">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="2026 실수령액 계산기 | 퇴직금·연차수당">
+<meta name="twitter:description" content="2026년 4대보험·근로소득세를 반영한 월 실수령액 계산기. 연봉별 표와 퇴직금·연차수당까지.">
+<meta name="twitter:image" content="https://jyp1108.github.io/salary-calc/assets/og-image.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%233182f6'/%3E%3Ctext x='32' y='44' font-size='34' font-family='-apple-system,sans-serif' font-weight='700' fill='%23fff' text-anchor='middle'%3E%E1%84%80%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="stylesheet" href="assets/style.css">
+
+<!-- AdSense 승인 후 아래 두 줄의 주석을 풀고 ca-pub-XXXXXXXXXXXXXXXX 을 발급 ID로 바꿔 주세요.
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+-->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "2026 실수령액 계산기 (퇴직금·연차수당)",
+  "url": "https://jyp1108.github.io/salary-calc/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "All",
+  "inLanguage": "ko",
+  "description": "2026년 4대보험 요율과 근로소득세를 반영해 월 실수령액을 계산하고, 연봉별 실수령액 표와 퇴직금·연차수당을 함께 계산하는 무료 웹 계산기입니다.",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+  "featureList": [
+    "2026년 4대보험·근로소득세 반영 월 실수령액 계산",
+    "연봉별 실수령액 표",
+    "퇴직금(평균임금) 계산",
+    "연차 발생일수·연차수당 계산"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "실수령액 계산 결과가 실제 급여명세서와 다른 이유는 무엇인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "이 계산기는 2026년 4대보험 요율과 근로소득 간이세액표 방식을 단순화해 적용합니다. 실제 회사는 보수월액 신고액, 상여·수당의 과세 여부, 부양가족 변동, 건강보험료 정산(4월), 회사별 세무 처리에 따라 공제액이 달라지므로 월 1만~3만원 정도 차이가 날 수 있습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "2026년 4대보험 근로자 부담률은 얼마인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "2026년 근로자 본인 부담은 국민연금 4.75%(총 9.5%), 건강보험 3.595%(총 7.19%), 장기요양보험은 건강보험료의 13.14%, 고용보험(실업급여) 0.9%입니다. 네 가지를 합쳐 월 급여의 약 9.7% 수준입니다. 산재보험은 사업주가 전액 부담합니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "국민연금은 왜 월급의 4.75%보다 적게 나오나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "국민연금은 월급 전체가 아니라 기준소득월액에 요율을 곱합니다. 2026년 7월부터 2027년 6월까지 기준소득월액 상한은 659만원, 하한은 41만원입니다. 월 소득이 659만원을 넘으면 659만원까지만 보험료가 매겨져 실제 부담률이 4.75%보다 낮아집니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "식대(비과세) 20만원을 넣으면 얼마나 달라지나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "비과세액은 4대보험료와 소득세의 기준이 되는 금액에서 빠집니다. 월 20만원 비과세를 반영하면 월 급여 300만원 기준 4대보험료가 약 2만원, 소득세가 약 1만원 줄어 실수령액이 2만~3만원 늘어납니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "퇴직금은 어떻게 계산하나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "퇴직금 = 1일 평균임금 × 30일 × (재직일수 ÷ 365)입니다. 평균임금은 퇴직일 전 3개월 임금총액을 그 기간의 총일수로 나눈 금액이며, 연간 상여금과 연차수당은 3/12을 더합니다. 계속근로기간이 1년 이상이어야 법정 퇴직금 지급 대상입니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "연차휴가는 며칠 발생하나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "입사 1년 미만은 1개월 개근 시 1일(최대 11일), 1년 이상은 15일이 발생합니다. 3년 이상 근속하면 최초 1년을 초과하는 계속근로연수 매 2년마다 1일이 가산되어 최대 25일까지 늘어납니다. 회사가 회계연도 기준으로 운영하면 발생일이 달라질 수 있습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "연차수당은 어떻게 계산하나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "연차수당 = 통상시급 × 1일 소정근로시간 × 미사용 연차일수입니다. 월급제 근로자의 통상시급은 월 통상임금을 월 소정근로시간 209시간(주 40시간)으로 나눈 금액입니다. 연차 사용촉진 절차를 거친 경우 미사용 연차수당이 지급되지 않을 수 있습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "2027년에는 실수령액이 얼마나 줄어드나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "2027년 1월 1일부터 국민연금 보험료율이 9.5%에서 10%로 올라 근로자 부담이 4.75%에서 5.0%가 됩니다. 월 급여 300만원이면 국민연금이 월 7,500원(연 9만원), 500만원이면 월 12,500원(연 15만원) 늘어납니다. 건강보험료율은 7.19%로 동결이 확정되었습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "2026년 최저임금은 얼마인가요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "2026년 최저임금은 시급 10,320원, 월 환산 2,156,880원(주 40시간·월 209시간)입니다. 2027년 최저임금은 시급 10,700원, 월 2,236,300원으로 고시되었습니다." }
+    },
+    {
+      "@type": "Question",
+      "name": "입력한 정보가 저장되거나 전송되나요?",
+      "acceptedAnswer": { "@type": "Answer", "text": "아니요. 모든 계산은 브라우저 안에서만 이루어지고 입력값은 서버로 전송되거나 저장되지 않습니다. 회원가입도 없습니다." }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#calculator">계산기로 바로 가기</a>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="./">
+      <span class="brand-mark" aria-hidden="true">계</span>
+      <span class="brand-text">생활 계산소</span>
+    </a>
+    <nav class="site-nav" aria-label="주요 메뉴">
+      <a href="#calculator">계산기</a>
+      <a href="#salary-table">연봉별 표</a>
+      <a href="#basis">계산 기준</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- 히어로 -->
+  <section class="hero wrap">
+    <p class="eyebrow">2026년 요율 반영 · 기준일 2026. 11. 15.</p>
+    <h1>2026년 실수령액 계산기</h1>
+    <p class="lede">
+      국민연금 4.75%, 건강보험 3.595%, 장기요양 건보료의 13.14%, 고용보험 0.9%와
+      근로소득세까지 반영해 <strong>세후 월급</strong>을 계산합니다.
+      퇴직금과 연차수당도 같은 기준으로 바로 확인하세요.
+    </p>
+    <ul class="hero-tags">
+      <li>가입·개인정보 입력 없음</li>
+      <li>2026년 확정 요율</li>
+      <li>모바일·PC 지원</li>
+    </ul>
+  </section>
+
+  <!-- 계산기 -->
+  <section class="calc wrap" id="calculator" aria-labelledby="calc-title">
+    <h2 class="sr-only" id="calc-title">계산기</h2>
+
+    <div class="card calc-card">
+      <div class="tabs" role="tablist" aria-label="계산 종류">
+        <button class="tab is-active" role="tab" id="tab-net" aria-controls="panel-net" aria-selected="true" data-tab="net">실수령액</button>
+        <button class="tab" role="tab" id="tab-sev" aria-controls="panel-sev" aria-selected="false" tabindex="-1" data-tab="sev">퇴직금</button>
+        <button class="tab" role="tab" id="tab-leave" aria-controls="panel-leave" aria-selected="false" tabindex="-1" data-tab="leave">연차수당</button>
+      </div>
+
+      <!-- 실수령액 -->
+      <div class="panel" role="tabpanel" id="panel-net" aria-labelledby="tab-net" tabindex="0">
+        <div class="panel-grid">
+          <form class="form" id="net-form" novalidate>
+            <div class="field">
+              <div class="field-head">
+                <label for="annual-input" id="pay-label">연봉</label>
+                <div class="seg seg-sm" role="group" aria-label="급여 입력 방식">
+                  <button type="button" class="seg-btn is-active" data-pay-mode="annual" aria-pressed="true">연봉</button>
+                  <button type="button" class="seg-btn" data-pay-mode="monthly" aria-pressed="false">월급</button>
+                </div>
+              </div>
+              <div class="input-money">
+                <input id="annual-input" name="annual" type="text" inputmode="numeric" autocomplete="off"
+                       value="4,800" data-money="man" aria-describedby="pay-hint">
+                <span class="unit">만원</span>
+              </div>
+              <input id="annual-range" class="range" type="range" min="1800" max="12000" step="100" value="4800"
+                     aria-label="연봉 슬라이더(만원)">
+              <p class="hint" id="pay-hint">세전 기준 · 비과세 포함 금액</p>
+            </div>
+
+            <div class="field">
+              <label for="nontax-input">월 비과세액</label>
+              <div class="input-money">
+                <input id="nontax-input" name="nontax" type="text" inputmode="numeric" autocomplete="off"
+                       value="200,000" data-money="won">
+                <span class="unit">원</span>
+              </div>
+              <p class="hint">식대·차량보조금 등 매달 비과세로 받는 금액 (보통 식대 20만원)</p>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="dependents">부양가족 수</label>
+                <select id="dependents" name="dependents">
+                  <option value="0" selected>0명 (본인만)</option>
+                  <option value="1">1명</option>
+                  <option value="2">2명</option>
+                  <option value="3">3명</option>
+                  <option value="4">4명</option>
+                  <option value="5">5명</option>
+                  <option value="6">6명 이상</option>
+                </select>
+                <p class="hint">본인 제외 · 배우자·자녀·부모 등</p>
+              </div>
+              <div class="field">
+                <label for="children">자녀 수</label>
+                <select id="children" name="children">
+                  <option value="0" selected>0명</option>
+                  <option value="1">1명</option>
+                  <option value="2">2명</option>
+                  <option value="3">3명</option>
+                  <option value="4">4명 이상</option>
+                </select>
+                <p class="hint">8세 이상 20세 이하 · 자녀세액공제 대상</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="rates-year">적용 연도</label>
+              <select id="rates-year" name="ratesYear">
+                <option value="2026" selected>2026년 (현행 확정 요율)</option>
+                <option value="2027">2027년 (국민연금 5.0% 예정)</option>
+              </select>
+              <p class="hint" id="rates-year-hint">2026년 11월 기준 확정 요율</p>
+            </div>
+          </form>
+
+          <div class="result">
+            <p class="result-label">세후 월 실수령액</p>
+            <p class="result-value" role="status" aria-live="polite" aria-atomic="true"><span id="net-pay">0</span><span class="result-unit">원</span></p>
+            <p class="result-sub">연 실수령액 <strong id="net-pay-annual">0</strong>원</p>
+
+            <div class="result-sum">
+              <div>
+                <span class="k">공제 합계</span>
+                <strong id="deduct-total">0</strong>원
+              </div>
+              <div>
+                <span class="k">공제율</span>
+                <strong id="deduct-rate">0</strong>%
+              </div>
+            </div>
+
+            <div class="breakdown">
+              <div class="bd-row">
+                <span class="bd-name">국민연금</span>
+                <span class="bd-bar"><i id="bar-pension"></i></span>
+                <span class="bd-val"><b id="ins-pension">0</b>원</span>
+              </div>
+              <div class="bd-row">
+                <span class="bd-name">건강보험</span>
+                <span class="bd-bar"><i id="bar-health"></i></span>
+                <span class="bd-val"><b id="ins-health">0</b>원</span>
+              </div>
+              <div class="bd-row">
+                <span class="bd-name">장기요양</span>
+                <span class="bd-bar"><i id="bar-ltc"></i></span>
+                <span class="bd-val"><b id="ins-ltc">0</b>원</span>
+              </div>
+              <div class="bd-row">
+                <span class="bd-name">고용보험</span>
+                <span class="bd-bar"><i id="bar-employment"></i></span>
+                <span class="bd-val"><b id="ins-employment">0</b>원</span>
+              </div>
+              <div class="bd-row">
+                <span class="bd-name">소득세</span>
+                <span class="bd-bar"><i id="bar-income"></i></span>
+                <span class="bd-val"><b id="tax-income">0</b>원</span>
+              </div>
+              <div class="bd-row">
+                <span class="bd-name">지방소득세</span>
+                <span class="bd-bar"><i id="bar-local"></i></span>
+                <span class="bd-val"><b id="tax-local">0</b>원</span>
+              </div>
+            </div>
+
+            <p class="result-note" id="net-note">
+              4대보험료 합계 <b id="ins-total">0</b>원 · 근로자 본인 부담분 기준
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 퇴직금 -->
+      <div class="panel" role="tabpanel" id="panel-sev" aria-labelledby="tab-sev" tabindex="0" hidden>
+        <div class="panel-grid">
+          <form class="form" id="sev-form" novalidate>
+            <div class="field-row">
+              <div class="field">
+                <label for="sev-start">입사일</label>
+                <input id="sev-start" type="date" value="2021-01-01">
+              </div>
+              <div class="field">
+                <label for="sev-end">퇴직일</label>
+                <input id="sev-end" type="date">
+                <p class="hint">마지막 근무일의 다음 날</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="sev-wage">최근 3개월 기준 월 임금</label>
+              <div class="input-money">
+                <input id="sev-wage" type="text" inputmode="numeric" autocomplete="off" value="3,000,000" data-money="won">
+                <span class="unit">원</span>
+              </div>
+              <p class="hint">세전 · 기본급과 매달 고정적으로 나오는 수당의 합</p>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="sev-bonus">연간 상여금</label>
+                <div class="input-money">
+                  <input id="sev-bonus" type="text" inputmode="numeric" autocomplete="off" value="0" data-money="won">
+                  <span class="unit">원</span>
+                </div>
+                <p class="hint">연간 총액 · 3/12 반영</p>
+              </div>
+              <div class="field">
+                <label for="sev-leavepay">연간 연차수당</label>
+                <div class="input-money">
+                  <input id="sev-leavepay" type="text" inputmode="numeric" autocomplete="off" value="0" data-money="won">
+                  <span class="unit">원</span>
+                </div>
+                <p class="hint">연간 총액 · 3/12 반영</p>
+              </div>
+            </div>
+          </form>
+
+          <div class="result">
+            <p class="result-label">예상 퇴직금</p>
+            <p class="result-value" role="status" aria-live="polite" aria-atomic="true"><span id="sev-result">0</span><span class="result-unit">원</span></p>
+            <p class="result-sub">세전 금액 · 퇴직소득세 별도</p>
+
+            <div class="result-sum">
+              <div>
+                <span class="k">1일 평균임금</span>
+                <strong id="sev-avg">0</strong>원
+              </div>
+              <div>
+                <span class="k">재직일수</span>
+                <strong id="sev-days">0</strong>일
+              </div>
+            </div>
+
+            <div class="breakdown breakdown-plain">
+              <div class="bd-row"><span class="bd-name">근속기간</span><span class="bd-val"><b id="sev-years">0</b>년</span></div>
+              <div class="bd-row"><span class="bd-name">평균임금 산정기간</span><span class="bd-val"><b id="sev-window">0</b>일</span></div>
+              <div class="bd-row"><span class="bd-name">3개월 임금총액</span><span class="bd-val"><b id="sev-wagetotal">0</b>원</span></div>
+            </div>
+
+            <p class="result-note" id="sev-note">퇴직금 = 1일 평균임금 × 30일 × (재직일수 ÷ 365)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 연차수당 -->
+      <div class="panel" role="tabpanel" id="panel-leave" aria-labelledby="tab-leave" tabindex="0" hidden>
+        <div class="panel-grid">
+          <form class="form" id="leave-form" novalidate>
+            <div class="field-row">
+              <div class="field">
+                <label for="lv-start">입사일</label>
+                <input id="lv-start" type="date" value="2021-01-01">
+              </div>
+              <div class="field">
+                <label for="lv-ref">기준일</label>
+                <input id="lv-ref" type="date">
+                <p class="hint">연차 발생을 계산하는 날</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="lv-wage">월 통상임금</label>
+              <div class="input-money">
+                <input id="lv-wage" type="text" inputmode="numeric" autocomplete="off" value="3,000,000" data-money="won">
+                <span class="unit">원</span>
+              </div>
+              <p class="hint">세전 · 통상시급 = 월 통상임금 ÷ 209시간</p>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="lv-hours">1일 소정근로시간</label>
+                <select id="lv-hours">
+                  <option value="8" selected>8시간 (주 40시간)</option>
+                  <option value="7">7시간 (주 35시간)</option>
+                  <option value="6">6시간 (주 30시간)</option>
+                  <option value="4">4시간 (주 20시간)</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="lv-used">사용한 연차</label>
+                <div class="input-money">
+                  <input id="lv-used" type="text" inputmode="numeric" autocomplete="off" value="0" data-money="day">
+                  <span class="unit">일</span>
+                </div>
+                <p class="hint">올해 실제로 쓴 연차일수</p>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="lv-accrued">발생 연차 (자동 계산)</label>
+              <div class="input-money">
+                <input id="lv-accrued" type="text" inputmode="numeric" autocomplete="off" value="15" data-money="day">
+                <span class="unit">일</span>
+              </div>
+              <p class="hint" id="lv-accrued-hint">입사일 기준 자동 계산값이며 직접 수정할 수 있습니다.</p>
+            </div>
+          </form>
+
+          <div class="result">
+            <p class="result-label">예상 연차수당</p>
+            <p class="result-value" role="status" aria-live="polite" aria-atomic="true"><span id="lv-result">0</span><span class="result-unit">원</span></p>
+            <p class="result-sub">미사용 <strong id="lv-unused">0</strong>일 기준 · 세전 금액</p>
+
+            <div class="result-sum">
+              <div>
+                <span class="k">통상시급</span>
+                <strong id="lv-hourly">0</strong>원
+              </div>
+              <div>
+                <span class="k">1일 통상임금</span>
+                <strong id="lv-daily">0</strong>원
+              </div>
+            </div>
+
+            <div class="breakdown breakdown-plain">
+              <div class="bd-row"><span class="bd-name">발생 연차</span><span class="bd-val"><b id="lv-accrued-out">0</b>일</span></div>
+              <div class="bd-row"><span class="bd-name">사용 연차</span><span class="bd-val"><b id="lv-used-out">0</b>일</span></div>
+              <div class="bd-row"><span class="bd-name">미사용 연차</span><span class="bd-val"><b id="lv-unused-out">0</b>일</span></div>
+            </div>
+
+            <p class="result-note" id="lv-note">연차수당 = 통상시급 × 1일 소정근로시간 × 미사용 연차일수</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 광고 1 -->
+  <aside class="ad-slot wrap" aria-label="광고">
+    <div class="ad-inner">
+      <span class="ad-label">AD</span>
+      <span>광고 영역 (AdSense 반응형)</span>
+      <!-- 승인 후: 아래 광고 단위로 교체
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0000000000" data-ad-format="auto" data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      -->
+    </div>
+  </aside>
+
+  <!-- 연봉별 표 -->
+  <section class="wrap section" id="salary-table" aria-labelledby="table-title">
+    <h2 id="table-title">연봉별 월 실수령액 표</h2>
+    <p class="section-lede">
+      위 계산기에 입력한 조건(<b id="table-caption-people">부양가족 0명 · 자녀 0명</b>, 월 비과세 <b id="table-caption-nontax">20만원</b>)을 그대로 적용한 표입니다.
+      같은 연봉이라도 부양가족·비과세·상여 지급 방식에 따라 실수령액은 달라집니다.
+    </p>
+    <div class="table-wrap">
+      <table class="data-table">
+        <caption class="sr-only">연봉별 월 실수령액, 4대보험료, 소득세 합계</caption>
+        <thead>
+          <tr>
+            <th scope="col">연봉</th>
+            <th scope="col">세전 월급</th>
+            <th scope="col">4대보험</th>
+            <th scope="col">소득세+지방세</th>
+            <th scope="col">월 실수령액</th>
+            <th scope="col">연 실수령액</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+    <p class="table-hint">휴대폰에서는 폭에 맞춰 주요 항목만 표시합니다. 연 실수령액은 PC에서 볼 수 있습니다.</p>
+    <p class="fine">2026년 요율 기준 · 원 단위 반올림 표시 · 실제 급여명세서와는 회사별 공제 방식에 따라 차이가 있을 수 있습니다.</p>
+  </section>
+
+  <!-- 계산 기준 -->
+  <section class="wrap section" id="basis" aria-labelledby="basis-title">
+    <h2 id="basis-title">2026년 계산 기준</h2>
+    <p class="section-lede">
+      <strong>기준일 2026년 11월 15일.</strong> 아래 요율과 세법을 반영했습니다. 요율이 바뀌면 이 페이지도 함께 갱신합니다.
+    </p>
+
+    <div class="basis-grid">
+      <div class="basis-card">
+        <h3>4대보험 (근로자 부담)</h3>
+        <table class="mini-table">
+          <tbody>
+            <tr><th scope="row">국민연금</th><td>4.75%</td><td class="muted">총 9.5%의 절반 · 기준소득월액 41만~659만원</td></tr>
+            <tr><th scope="row">건강보험</th><td>3.595%</td><td class="muted">총 7.19%의 절반</td></tr>
+            <tr><th scope="row">장기요양</th><td>건보료의 13.14%</td><td class="muted">보수 대비 0.9448%</td></tr>
+            <tr><th scope="row">고용보험</th><td>0.9%</td><td class="muted">실업급여분 · 고용안정분은 사업주 부담</td></tr>
+            <tr><th scope="row">산재보험</th><td>0%</td><td class="muted">사업주 전액 부담</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="basis-card">
+        <h3>근로소득세 계산 순서</h3>
+        <ol class="steps">
+          <li>총급여 = 과세 대상 월급 × 12</li>
+          <li>근로소득공제 차감 → 근로소득금액</li>
+          <li>기본공제(1인 150만원) + 국민연금 보험료 공제</li>
+          <li>과세표준 × 6~45% 누진세율 → 산출세액</li>
+          <li>근로소득세액공제 · 자녀세액공제(1명 25만원, 2명 55만원) · 표준세액공제 13만원</li>
+          <li>결정세액 ÷ 12 → 월 원천징수, 지방소득세는 소득세의 10%</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="notice">
+      <h3>이 계산기가 반영하지 않는 것</h3>
+      <ul>
+        <li>건강보험료 정산(매년 4월)과 보수월액 변동</li>
+        <li>상여금·인센티브 등 비정기 급여의 과세 시점 차이</li>
+        <li>연말정산에서 추가로 돌려받는 항목(건강보험료 소득공제, 의료비·교육비·신용카드·월세 세액공제 등)</li>
+        <li>회사별 단체보험·식대 처리, 두루누리 지원 등 감면 제도</li>
+      </ul>
+      <p class="fine">이 페이지의 모든 계산은 참고용입니다. 세무·법률 자문이 아니며, 정확한 금액은 급여명세서·국세청 홈택스·고용노동부 계산기로 확인하세요.</p>
+    </div>
+
+    <h3 class="sub-title">2026년에 달라진 것 5가지</h3>
+    <ol class="change-list">
+      <li>
+        <strong>국민연금 보험료율 9% → 9.5%</strong>
+        <span>1998년 이후 첫 인상입니다. 근로자 부담이 4.5%에서 4.75%로 올라 월 급여 300만원 기준 월 7,500원이 늘었습니다. 2033년 13%까지 매년 0.5%p씩 오릅니다.</span>
+      </li>
+      <li>
+        <strong>건강보험료율 7.09% → 7.19%</strong>
+        <span>근로자 부담은 3.595%가 되었고, 장기요양보험료율도 건강보험료의 12.95%에서 13.14%로 올랐습니다.</span>
+      </li>
+      <li>
+        <strong>자녀세액공제 인상</strong>
+        <span>8세 이상 20세 이하 자녀 1명 25만원, 2명 55만원, 3명 이상은 55만원에 2명 초과 1명당 40만원을 더합니다. 자녀가 있으면 매달 원천징수되는 소득세가 줄어듭니다.</span>
+      </li>
+      <li>
+        <strong>최저임금 시급 10,320원</strong>
+        <span>월 환산 2,156,880원(주 40시간·월 209시간)입니다. 2027년 최저임금은 시급 10,700원, 월 2,236,300원으로 이미 고시되었습니다.</span>
+      </li>
+      <li>
+        <strong>2027년 국민연금 10% 예고</strong>
+        <span>내년 1월부터 근로자 부담이 5.0%가 됩니다. 연봉 협상이나 다음 해 예산을 세울 때 미리 반영해 두는 것이 좋습니다.</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 광고 2 -->
+  <aside class="ad-slot wrap" aria-label="광고">
+    <div class="ad-inner">
+      <span class="ad-label">AD</span>
+      <span>광고 영역 (AdSense 반응형)</span>
+    </div>
+  </aside>
+
+  <!-- FAQ -->
+  <section class="wrap section" id="faq" aria-labelledby="faq-title">
+    <h2 id="faq-title">자주 묻는 질문</h2>
+
+    <details class="faq-item" open>
+      <summary>계산 결과가 실제 급여명세서와 다른 이유는 무엇인가요?</summary>
+      <p>이 계산기는 2026년 4대보험 요율과 근로소득 간이세액표 방식을 단순화해 적용합니다. 실제 회사는 보수월액 신고액, 상여·수당의 과세 여부, 부양가족 변동, 건강보험료 정산(4월), 회사별 세무 처리에 따라 공제액이 달라지므로 월 1만~3만원 정도 차이가 날 수 있습니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>2026년 4대보험 근로자 부담률은 얼마인가요?</summary>
+      <p>국민연금 4.75%(총 9.5%), 건강보험 3.595%(총 7.19%), 장기요양보험은 건강보험료의 13.14%, 고용보험(실업급여) 0.9%입니다. 네 가지를 합치면 월 급여의 약 9.7% 수준이고, 산재보험은 사업주가 전액 부담합니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>국민연금은 왜 월급의 4.75%보다 적게 나오나요?</summary>
+      <p>국민연금은 월급 전체가 아니라 기준소득월액에 요율을 곱합니다. 2026년 7월부터 2027년 6월까지 기준소득월액 상한은 659만원, 하한은 41만원입니다. 월 소득이 659만원을 넘으면 659만원까지만 보험료가 매겨져 실제 부담률이 4.75%보다 낮아집니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>식대(비과세) 20만원을 넣으면 얼마나 달라지나요?</summary>
+      <p>비과세액은 4대보험료와 소득세의 기준 금액에서 빠집니다. 월 급여 300만원 기준으로 비과세 20만원을 반영하면 4대보험료가 약 2만원, 소득세가 약 1만원 줄어 실수령액이 2만~3만원 늘어납니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>퇴직금은 어떻게 계산하나요?</summary>
+      <p>퇴직금 = 1일 평균임금 × 30일 × (재직일수 ÷ 365)입니다. 평균임금은 퇴직일 전 3개월 임금총액을 그 기간의 총일수로 나눈 금액이고, 연간 상여금과 연차수당은 3/12을 더합니다. 계속근로기간이 1년 이상이어야 법정 퇴직금 지급 대상이며, 평균임금이 통상임금보다 낮으면 통상임금을 기준으로 계산합니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>연차휴가는 며칠 발생하나요?</summary>
+      <p>입사 1년 미만은 1개월 개근 시 1일(최대 11일), 1년 이상은 15일이 발생합니다. 3년 이상 근속하면 최초 1년을 초과하는 계속근로연수 매 2년마다 1일이 가산되어 최대 25일까지 늘어납니다. 회사가 회계연도 기준으로 연차를 운영하면 발생일이 달라질 수 있습니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>연차수당은 어떻게 계산하나요?</summary>
+      <p>연차수당 = 통상시급 × 1일 소정근로시간 × 미사용 연차일수입니다. 월급제 근로자의 통상시급은 월 통상임금을 월 소정근로시간 209시간(주 40시간)으로 나눈 금액입니다. 연차 사용촉진 절차를 거친 경우에는 미사용 연차수당이 지급되지 않을 수 있습니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>2027년에는 실수령액이 얼마나 줄어드나요?</summary>
+      <p>2027년 1월 1일부터 국민연금 보험료율이 9.5%에서 10%로 올라 근로자 부담이 4.75%에서 5.0%가 됩니다. 월 급여 300만원이면 국민연금이 월 7,500원(연 9만원), 500만원이면 월 12,500원(연 15만원) 늘어납니다. 건강보험료율은 7.19% 동결이 확정되었습니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>2026년 최저임금은 얼마인가요?</summary>
+      <p>2026년 최저임금은 시급 10,320원, 월 환산 2,156,880원(주 40시간·월 209시간)입니다. 2027년 최저임금은 시급 10,700원, 월 2,236,300원으로 고시되었습니다.</p>
+    </details>
+
+    <details class="faq-item">
+      <summary>입력한 정보가 저장되거나 전송되나요?</summary>
+      <p>아니요. 모든 계산은 사용자의 브라우저 안에서만 이루어지고, 입력값은 서버로 전송되지 않으며 저장되지 않습니다. 회원가입도 없습니다. 자세한 내용은 <a href="privacy.html">개인정보처리방침</a>을 확인하세요.</p>
+    </details>
+  </section>
+
+  <!-- 다음 계산기 -->
+  <section class="wrap section next-tools" aria-labelledby="next-title">
+    <h2 id="next-title">곧 추가될 계산기</h2>
+    <ul class="chips">
+      <li>연말정산 환급금 미리보기</li>
+      <li>주휴수당 계산기</li>
+      <li>4대보험 사업주 부담 계산기</li>
+      <li>연봉 인상률 계산기</li>
+    </ul>
+    <p class="fine">필요한 계산기가 있다면 <a href="about.html">소개·문의</a>로 알려 주세요. 요청이 많은 순서로 만듭니다.</p>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">계</span>
+      <div>
+        <p class="footer-name">생활 계산소</p>
+        <p class="footer-desc">돈과 관련된 계산을 3초 안에 끝내는 무료 도구 모음</p>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="바닥글 메뉴">
+      <a href="about.html">소개·문의</a>
+      <a href="privacy.html">개인정보처리방침</a>
+      <a href="#calculator">실수령액 계산기</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+    <p class="footer-copy">© 2026 생활 계산소 · 이 페이지의 계산 결과는 참고용이며 법적 효력이 없습니다.</p>
+  </div>
+</footer>
+
+<script src="assets/calc.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jyp1108.github.io/salary-calc/sitemap.xml

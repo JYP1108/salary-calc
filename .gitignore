@@ -1,0 +1,10 @@
+# 검수·개발용(배포 대상 아님)
+test/
+review/
+scripts/
+__pycache__/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
