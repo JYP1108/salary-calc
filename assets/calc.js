@@ -173,7 +173,7 @@
    *  - monthlyGross: 세전 월 급여(비과세 포함)
    *  - nonTaxable: 월 비과세액(식대 등)
    *  - dependents: 부양가족 수(본인 제외)
-   *  - children: 자녀세액공제 대상 자녀 수(8세 이상 20세 이하)
+   *  - children: 자녀세액공제 대상 자녀 수(2026년 귀속 9세 이상 20세 이하)
    *  - rates: RATES_2026 / RATES_2027
    */
   function netPay(opts) {
