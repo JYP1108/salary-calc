@@ -2,15 +2,26 @@
  * 생활 계산소 - 계산 엔진 (calc.js)
  * 순수 함수만 담당합니다. DOM을 건드리지 않으므로 브라우저/테스트 양쪽에서 그대로 실행됩니다.
  *
- * 기준일: 2026년 11월 15일
+ * 기준일: 2026년 11월 28일
  *  - 국민연금 9.5%(근로자 4.75%), 기준소득월액 하한 41만원·상한 659만원 (2026.7~2027.6)
- *  - 건강보험 7.19%(근로자 3.595%), 장기요양보험료 = 건강보험료 × 13.14%
+ *  - 건강보험 7.19%(근로자 3.595%), 장기요양보험료 = 건강보험료 × 13.14% (2027년 13.90%)
  *  - 고용보험(실업급여) 1.8%(근로자 0.9%)
- *  - 소득세: 2026년 소득세법 세율·근로소득공제·인적공제·근로소득세액공제·자녀세액공제·표준세액공제
+ *  - 소득세: 국세청 근로소득 간이세액표(소득세법 시행령 별표 2, 개정 2026. 2. 27.)를 그대로 적용
+ *    — 표는 ltc-2026.js에 담겨 있고, 8세 이상 20세 이하 자녀는 표의 자녀 수별 금액을 뺍니다.
  *  - 2026년 최저임금 시급 10,320원(월 209시간 2,156,880원)
  */
 (function (global) {
   'use strict';
+
+  /* 간이세액표 모듈. 브라우저에서는 ltc-2026.js를 먼저 읽고, 테스트에서는 require로 가져옵니다. */
+  var LTC = global.Ltc2026;
+  if (!LTC && typeof require === 'function') {
+    try {
+      LTC = require('./ltc-2026.js');
+    } catch (e) {
+      LTC = null;
+    }
+  }
 
   /* ------------------------------------------------------------------ *
    * 1. 요율 상수
@@ -27,22 +38,22 @@
     minimumWage: { hourly: 10320, monthly: 2156880 }
   };
 
-  // 2027년: 국민연금 10%(근로자 5%)와 건강보험 7.19% 동결은 확정.
-  // 장기요양·고용보험 요율은 2026년 11월 기준 미확정이므로 2026년 값을 그대로 사용합니다.
+  // 2027년: 국민연금 10%(근로자 5%)와 건강보험 7.19% 동결, 장기요양보험료율은 건강보험료의 13.90%
+  // (2026. 10. 30. 장기요양위원회 의결 · 소득 대비 0.9994%)까지 반영했습니다. 고용보험은 2026년 요율로 가정합니다.
   var RATES_2027 = {
     key: '2027',
     label: '2027년(예정)',
-    note: '국민연금 5.0%·건강보험 동결만 확정, 장기요양·고용보험은 2026년 요율로 가정',
+    note: '국민연금 5.0% · 장기요양 13.90% 반영, 고용보험은 2026년 요율로 가정',
     pension: { employee: 0.05, total: 0.1, minBase: 410000, maxBase: 6590000 },
     health: { employee: 0.03595, total: 0.0719 },
-    ltc: { ofHealth: 0.1314, ofWage: 0.009448 },
+    ltc: { ofHealth: 0.139, ofWage: 0.009994 },
     employment: { employee: 0.009, total: 0.018 },
     minimumWage: { hourly: 10700, monthly: 2236300 }
   };
 
   var RATES = { '2026': RATES_2026, '2027': RATES_2027 };
 
-  // 2026년 종합소득세율 (소득세법 제55조)
+  // 2026년 종합소득세율 (소득세법 제55조) — 간이세액표를 만들 때 쓰인 기준으로, 참고용입니다.
   var TAX_BRACKETS = [
     { limit: 14000000, rate: 0.06, deduction: 0 },
     { limit: 50000000, rate: 0.15, deduction: 1260000 },
@@ -55,8 +66,6 @@
   ];
 
   var LIMITS = {
-    personalDeduction: 1500000, // 1인당 기본공제
-    standardTaxCredit: 130000, // 표준세액공제(근로소득자)
     monthlyHours: 209, // 주 40시간 기준 월 소정근로시간
     localTaxRate: 0.1 // 지방소득세 = 소득세의 10%
   };
@@ -103,7 +112,7 @@
     // 건강보험: 보수월액 기준
     var health = floor10(pay * r.health.employee);
 
-    // 장기요양: 건강보험료의 13.14%
+    // 장기요양: 건강보험료 × 연도별 요율 (2026년 13.14%, 2027년 13.90%)
     var ltc = floor10(health * r.ltc.ofHealth);
 
     // 고용보험: 실업급여분 0.9%
@@ -120,51 +129,49 @@
   }
 
   /* ------------------------------------------------------------------ *
-   * 4. 근로소득세 (간이세액표 방식 근사)
+   * 4. 근로소득세 (국세청 근로소득 간이세액표)
+   *
+   * 월 소득세 = 간이세액표의 공제대상가족수별 금액 − 8세 이상 20세 이하 자녀 수별 금액
+   * 표의 공제대상가족수에는 본인과 배우자가 각각 1명씩 들어가므로, 화면의
+   * 「부양가족 수(본인 제외)」+ 1이 표에서 찾을 칸이 됩니다.
    * ------------------------------------------------------------------ */
 
-  function workIncomeDeduction(grossAnnual) {
-    var g = Math.max(0, grossAnnual);
-    if (g <= 5000000) return g * 0.7;
-    if (g <= 15000000) return 3500000 + (g - 5000000) * 0.4;
-    if (g <= 45000000) return 7500000 + (g - 15000000) * 0.15;
-    if (g <= 100000000) return 12000000 + (g - 45000000) * 0.05;
-    return Math.min(14750000 + (g - 100000000) * 0.02, 20000000);
-  }
-
-  function progressiveTax(taxBase) {
-    var base = Math.max(0, taxBase);
-    if (base <= 0) return 0;
-    for (var i = 0; i < TAX_BRACKETS.length; i++) {
-      if (base <= TAX_BRACKETS[i].limit) {
-        return base * TAX_BRACKETS[i].rate - TAX_BRACKETS[i].deduction;
-      }
+  function requireTable() {
+    if (!LTC || typeof LTC.baseTax !== 'function') {
+      throw new Error('근로소득 간이세액표(assets/ltc-2026.js)를 먼저 불러와야 합니다.');
     }
-    return 0;
+    return LTC;
   }
 
-  function workTaxCreditLimit(grossAnnual) {
-    var g = grossAnnual;
-    if (g <= 33000000) return 740000;
-    if (g <= 70000000) return Math.max(660000, 740000 - (g - 33000000) * 0.008);
-    if (g <= 120000000) return Math.max(500000, 660000 - (g - 70000000) * 0.5);
-    return Math.max(200000, 500000 - (g - 120000000) * 0.5);
+  /**
+   * 표에서 찾을 공제대상가족수(본인 포함)
+   * @param {number} dependents 본인을 제외한 부양가족 수
+   */
+  function familyCount(dependents) {
+    return Math.max(1, Math.floor(toNumber(dependents)) + 1);
   }
 
-  function workTaxCredit(calculatedTax, grossAnnual) {
-    if (calculatedTax <= 0) return 0;
-    var credit =
-      calculatedTax <= 1300000 ? calculatedTax * 0.55 : 715000 + (calculatedTax - 1300000) * 0.3;
-    return Math.min(credit, workTaxCreditLimit(grossAnnual));
-  }
-
-  // 자녀세액공제 (2026년: 1명 25만원, 2명 55만원, 3명 이상 55만원 + 2명 초과 1명당 40만원)
-  function childTaxCredit(children) {
-    var n = Math.max(0, Math.floor(toNumber(children)));
-    if (n <= 0) return 0;
-    if (n === 1) return 250000;
-    if (n === 2) return 550000;
-    return 550000 + (n - 2) * 400000;
+  /**
+   * 월 근로소득세와 지방소득세
+   * @param {number} monthlyTaxable 비과세를 제외한 월급여액
+   * @param {number} dependents 본인을 제외한 부양가족 수
+   * @param {number} children 8세 이상 20세 이하 자녀 수
+   */
+  function incomeTax(monthlyTaxable, dependents, children) {
+    var table = requireTable();
+    var fam = familyCount(dependents);
+    var kids = Math.max(0, Math.floor(toNumber(children)));
+    var tableTax = table.baseTax(monthlyTaxable, fam);
+    var childCreditMonthly = table.childCredit(kids);
+    var tax = Math.max(0, tableTax - childCreditMonthly);
+    return {
+      familyCount: fam,
+      children: kids,
+      tableTax: tableTax,
+      childCredit: childCreditMonthly,
+      incomeTax: tax,
+      localTax: floor10(tax * LIMITS.localTaxRate)
+    };
   }
 
   /**
@@ -173,7 +180,7 @@
    *  - monthlyGross: 세전 월 급여(비과세 포함)
    *  - nonTaxable: 월 비과세액(식대 등)
    *  - dependents: 부양가족 수(본인 제외)
-   *  - children: 자녀세액공제 대상 자녀 수(2026년 귀속 9세 이상 20세 이하)
+   *  - children: 자녀세액공제 대상 자녀 수(8세 이상 20세 이하, 2026년 귀속)
    *  - rates: RATES_2026 / RATES_2027
    */
   function netPay(opts) {
@@ -186,27 +193,11 @@
 
     var monthlyTaxable = monthlyGross - nonTaxable;
     var ins = insurance(monthlyTaxable, rates);
+    var tax = incomeTax(monthlyTaxable, dependents, children);
+    var taxIncome = tax.incomeTax;
+    var taxLocal = tax.localTax;
 
-    var grossAnnual = monthlyTaxable * 12;
-    var earnedIncome = Math.max(0, grossAnnual - workIncomeDeduction(grossAnnual));
-    var personalDeduction = LIMITS.personalDeduction * (1 + dependents);
-    // 간이세액표 방식: 국민연금(연금보험료)만 소득공제 반영, 건강보험료는 연말정산에서 공제
-    var pensionDeduction = ins.pension * 12;
-    var taxBase = Math.max(0, earnedIncome - personalDeduction - pensionDeduction);
-
-    var calculatedTax = progressiveTax(taxBase);
-    var creditWork = workTaxCredit(calculatedTax, grossAnnual);
-    var creditChild = childTaxCredit(children);
-    var creditStandard = LIMITS.standardTaxCredit;
-    var determinedTax = Math.max(0, calculatedTax - creditWork - creditChild - creditStandard);
-
-    var incomeTaxYear = determinedTax;
-    var localTaxYear = determinedTax * LIMITS.localTaxRate;
-
-    var incomeTax = floor10(incomeTaxYear / 12);
-    var localTax = floor10(localTaxYear / 12);
-
-    var totalDeduction = ins.total + incomeTax + localTax;
+    var totalDeduction = ins.total + taxIncome + taxLocal;
 
     return {
       ratesKey: rates.key,
@@ -214,25 +205,24 @@
       nonTaxable: nonTaxable,
       monthlyTaxable: monthlyTaxable,
       insurance: ins,
-      incomeTax: incomeTax,
-      localTax: localTax,
+      incomeTax: taxIncome,
+      localTax: taxLocal,
       totalDeduction: totalDeduction,
       netMonthly: monthlyGross - totalDeduction,
       netAnnual: (monthlyGross - totalDeduction) * 12,
-      // 참고용 상세
+      // 참고용 상세 (화면에는 쓰지 않고, 확인·검산용)
+      tax: {
+        familyCount: tax.familyCount,
+        children: tax.children,
+        tableTax: tax.tableTax,
+        childCredit: tax.childCredit
+      },
       annual: {
-        grossTaxable: grossAnnual,
-        earnedIncome: earnedIncome,
-        personalDeduction: personalDeduction,
-        pensionDeduction: pensionDeduction,
-        taxBase: taxBase,
-        calculatedTax: calculatedTax,
-        creditWork: creditWork,
-        creditChild: creditChild,
-        creditStandard: creditStandard,
-        determinedTax: determinedTax,
-        localTax: localTaxYear,
-        totalTax: determinedTax + localTaxYear
+        tableTax: tax.tableTax * 12,
+        childCredit: tax.childCredit * 12,
+        incomeTax: taxIncome * 12,
+        localTax: taxLocal * 12,
+        totalTax: (taxIncome + taxLocal) * 12
       },
       deductionRate: monthlyGross > 0 ? totalDeduction / monthlyGross : 0
     };
@@ -422,12 +412,11 @@
     RATES_2027: RATES_2027,
     TAX_BRACKETS: TAX_BRACKETS,
     LIMITS: LIMITS,
+    LTC: LTC,
     floor10: floor10,
     insurance: insurance,
-    workIncomeDeduction: workIncomeDeduction,
-    progressiveTax: progressiveTax,
-    workTaxCredit: workTaxCredit,
-    childTaxCredit: childTaxCredit,
+    familyCount: familyCount,
+    incomeTax: incomeTax,
     netPay: netPay,
     severance: severance,
     leaveAccrual: leaveAccrual,
